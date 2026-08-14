@@ -23,6 +23,12 @@ const eslintConfig = [
     },
   },
   {
+    files: ['src/emails/**/*.tsx'],
+    rules: {
+      '@next/next/no-head-element': 'off',
+    },
+  },
+  {
     ignores: ['.next/', 'src/payload-types.ts', 'src/payload-generated-schema.ts'],
   },
 ]

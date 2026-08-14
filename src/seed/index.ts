@@ -6,6 +6,7 @@ import sharp from 'sharp'
 
 import config from '../payload.config'
 import { seedDogs } from './data/dogs'
+import { seedApplications } from './data/adoptionApplications'
 
 const run = async () => {
   const payload = await getPayload({ config })
@@ -29,6 +30,8 @@ const run = async () => {
 
   const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'dog-shelter-seed-'))
 
+  const dogIdBySlug = new Map<string, number>()
+
   try {
     let created = 0
     let skipped = 0
@@ -41,6 +44,7 @@ const run = async () => {
       })
 
       if (existing.docs.length > 0) {
+        dogIdBySlug.set(dog.slug, existing.docs[0].id)
         skipped += 1
         continue
       }
@@ -66,7 +70,7 @@ const run = async () => {
         filePath: imagePath,
       })
 
-      await payload.create({
+      const createdDog = await payload.create({
         collection: 'dogs',
         data: {
           name: dog.name,
@@ -80,6 +84,7 @@ const run = async () => {
         },
       })
 
+      dogIdBySlug.set(dog.slug, createdDog.id)
       created += 1
     }
 
@@ -87,6 +92,59 @@ const run = async () => {
   } finally {
     await rm(tmpDir, { recursive: true, force: true })
   }
+
+  let applicationsCreated = 0
+  let applicationsSkipped = 0
+
+  for (const application of seedApplications) {
+    const dogId = dogIdBySlug.get(application.dogSlug)
+    if (!dogId) continue
+
+    const existing = await payload.find({
+      collection: 'adoption-applications',
+      where: {
+        and: [
+          { dog: { equals: dogId } },
+          { applicantEmail: { equals: application.applicantEmail } },
+        ],
+      },
+      limit: 1,
+    })
+
+    if (existing.docs.length > 0) {
+      applicationsSkipped += 1
+      continue
+    }
+
+    // Always create at `submitted` first (fires the submission email), then
+    // transition to the target status so the status-change email hook exercises
+    // the same path a real review would.
+    const createdApplication = await payload.create({
+      collection: 'adoption-applications',
+      data: {
+        dog: dogId,
+        applicantName: application.applicantName,
+        applicantEmail: application.applicantEmail,
+        applicantPhone: application.applicantPhone,
+        message: application.message,
+        status: 'submitted',
+      },
+    })
+
+    if (application.targetStatus !== 'submitted') {
+      await payload.update({
+        collection: 'adoption-applications',
+        id: createdApplication.id,
+        data: { status: application.targetStatus },
+      })
+    }
+
+    applicationsCreated += 1
+  }
+
+  payload.logger.info(
+    `Seeded AdoptionApplications: ${applicationsCreated} created, ${applicationsSkipped} already existed.`,
+  )
 }
 
 await run()
