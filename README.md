@@ -17,6 +17,7 @@ An open-source, single-tenant Next.js template that any local dog shelter can fo
 ## Tech Stack
 
 - **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **UI:** [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) — accessible, unstyled-primitive components copied into the repo rather than a runtime dependency, easy for a fork to reskin
 - **CMS/backend:** [Payload CMS](https://payloadcms.com/) — installs directly into the Next.js app, giving shelter staff a full admin UI without a separate backend
 - **Database:** Postgres, via Payload's Postgres adapter
 - **Payments:** [Stripe](https://stripe.com/) (Checkout + webhooks)
