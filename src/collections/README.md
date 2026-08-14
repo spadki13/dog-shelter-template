@@ -1,8 +1,7 @@
 # Collections
 
-`Users` and `Media` are scaffolded by default. Still to be added:
+`Users`, `Media`, and `Dogs` are built. Still to be added:
 
-- `Dogs` — core listing collection, always present
 - `AdoptionApplications` — status workflow (submitted → under review → approved/denied)
 - `Products` — merch, only relevant when the merch feature toggle is on
 - `Donations` — thin wrapper around Stripe Checkout config

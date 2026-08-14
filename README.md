@@ -67,7 +67,7 @@ src/
 ├── app/
 │   ├── (frontend)/   # public-facing site
 │   └── (payload)/    # Payload admin + REST/GraphQL, generator-owned
-├── collections/       # Payload collections (Users, Media so far)
+├── collections/       # Payload collections (Users, Media, Dogs so far)
 ├── globals/           # Payload globals (SiteSettings)
 ├── fields/            # shared reusable field configs
 ├── access/            # access-control functions
