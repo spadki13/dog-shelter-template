@@ -4,6 +4,7 @@
   "description": "Open-source Next.js + Payload CMS template for a single-shelter dog adoption and donation site.",
   "license": "MIT",
   "type": "module",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
