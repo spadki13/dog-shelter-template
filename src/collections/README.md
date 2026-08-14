@@ -1,8 +1,7 @@
 # Collections
 
-`Users`, `Media`, and `Dogs` are built. Still to be added:
+`Users`, `Media`, `Dogs`, and `AdoptionApplications` are built. Still to be added:
 
-- `AdoptionApplications` — status workflow (submitted → under review → approved/denied)
 - `Products` — merch, only relevant when the merch feature toggle is on
 - `Donations` — thin wrapper around Stripe Checkout config
 - `Orders` — created on successful Stripe checkout for merch purchases

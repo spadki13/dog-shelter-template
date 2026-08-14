@@ -49,7 +49,7 @@ Open `http://localhost:3000/admin` and follow the prompts to create your first a
 
 ## Environment Variables
 
-See `.env.example` for the full list. Only `DATABASE_URL` and `PAYLOAD_SECRET` are required to run the app locally — Stripe, Resend, and Blob variables are only needed once those features are implemented.
+See `.env.example` for the full list. Only `DATABASE_URL` and `PAYLOAD_SECRET` are required to run the app locally. `RESEND_API_KEY`/`RESEND_FROM_EMAIL` are optional — without them, adoption status emails are logged to the console instead of sent. Stripe and Blob variables are only needed once those features are implemented.
 
 | Variable                                                                             | Purpose                                                                        |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
@@ -67,7 +67,7 @@ src/
 ├── app/
 │   ├── (frontend)/   # public-facing site
 │   └── (payload)/    # Payload admin + REST/GraphQL, generator-owned
-├── collections/       # Payload collections (Users, Media, Dogs so far)
+├── collections/       # Payload collections (Users, Media, Dogs, AdoptionApplications so far)
 ├── globals/           # Payload globals (SiteSettings)
 ├── fields/            # shared reusable field configs
 ├── access/            # access-control functions
