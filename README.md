@@ -2,7 +2,7 @@
 
 An open-source, single-tenant Next.js template that any local dog shelter can fork and deploy for their own site. Shelter staff manage dogs, adoption applications, donations, and (optionally) merch entirely through the admin — no code changes needed for day-to-day use.
 
-> **Status:** early scaffold. Collections, Stripe integration, and the frontend are not built yet — see [Roadmap](#roadmap--out-of-scope) and `project-brief.md`.
+> **Status:** backend complete — all collections, the adoption email hook, and the Stripe integration are built. The public frontend is not built yet — see [Roadmap](#roadmap--out-of-scope) and `project-brief.md`.
 
 [Live demo](#) — coming once deployed · [CI](../../actions)
 
@@ -49,7 +49,7 @@ Open `http://localhost:3000/admin` and follow the prompts to create your first a
 
 ## Environment Variables
 
-See `.env.example` for the full list. Only `DATABASE_URL` and `PAYLOAD_SECRET` are required to run the app locally. `RESEND_API_KEY`/`RESEND_FROM_EMAIL` are optional — without them, adoption status emails are logged to the console instead of sent. Stripe and Blob variables are only needed once those features are implemented.
+See `.env.example` for the full list. Only `DATABASE_URL` and `PAYLOAD_SECRET` are required to run the app locally. `RESEND_API_KEY`/`RESEND_FROM_EMAIL` and the `STRIPE_*` variables are optional — without them, adoption status emails log to the console and the checkout/webhook routes respond `503` instead of calling out. Blob variables are only needed once media storage is wired up.
 
 | Variable                                                                             | Purpose                                                                        |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
@@ -67,7 +67,7 @@ src/
 ├── app/
 │   ├── (frontend)/   # public-facing site
 │   └── (payload)/    # Payload admin + REST/GraphQL, generator-owned
-├── collections/       # Payload collections (Users, Media, Dogs, AdoptionApplications so far)
+├── collections/       # Payload collections (Users, Media, Dogs, AdoptionApplications, Products, Donations, Orders, WebhookEvents)
 ├── globals/           # Payload globals (SiteSettings)
 ├── fields/            # shared reusable field configs
 ├── access/            # access-control functions
