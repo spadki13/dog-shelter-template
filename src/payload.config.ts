@@ -9,6 +9,10 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Dogs } from './collections/Dogs'
 import { AdoptionApplications } from './collections/AdoptionApplications'
+import { Products } from './collections/Products'
+import { Donations } from './collections/Donations'
+import { Orders } from './collections/Orders'
+import { WebhookEvents } from './collections/WebhookEvents'
 import { SiteSettings } from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
@@ -21,7 +25,16 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Dogs, AdoptionApplications],
+  collections: [
+    Users,
+    Media,
+    Dogs,
+    AdoptionApplications,
+    Products,
+    Donations,
+    Orders,
+    WebhookEvents,
+  ],
   globals: [SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

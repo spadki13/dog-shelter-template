@@ -6,6 +6,7 @@ import { AdoptionDenied } from '../emails/templates/AdoptionDenied'
 import { AdoptionSubmitted } from '../emails/templates/AdoptionSubmitted'
 import { renderEmail } from '../emails/render'
 import { getResendClient } from '../lib/resend'
+import { resolveNotifiableStatus } from '../lib/adoptionNotifications'
 import type { AdoptionApplication, Dog } from '../payload-types'
 
 const TEMPLATES = {
@@ -23,24 +24,15 @@ const TEMPLATES = {
   },
 } as const
 
-type NotifiableStatus = keyof typeof TEMPLATES
-
-const isNotifiableStatus = (status: string): status is NotifiableStatus => status in TEMPLATES
-
 export const sendAdoptionStatusEmail: CollectionAfterChangeHook<AdoptionApplication> = async ({
   doc,
   previousDoc,
   operation,
   req,
 }) => {
-  const isNewSubmission = operation === 'create'
-  const statusChanged = !isNewSubmission && previousDoc?.status !== doc.status
+  const status = resolveNotifiableStatus(operation, previousDoc?.status, doc.status)
 
-  if (!isNewSubmission && !statusChanged) return doc
-
-  const status = isNewSubmission ? 'submitted' : doc.status
-
-  if (!isNotifiableStatus(status)) return doc
+  if (!status) return doc
 
   const dog =
     typeof doc.dog === 'object'
