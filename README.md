@@ -2,7 +2,7 @@
 
 An open-source, single-tenant Next.js template that any local dog shelter can fork and deploy for their own site. Shelter staff manage dogs, adoption applications, donations, and (optionally) merch entirely through the admin — no code changes needed for day-to-day use.
 
-> **Status:** backend complete — all collections, the adoption email hook, and the Stripe integration are built. The public frontend is not built yet — see [Roadmap](#roadmap--out-of-scope) and `project-brief.md`.
+> **Status:** functionally complete for v1 — collections, the adoption email hook, the Stripe integration, and the public frontend (home, dog listings/detail, adoption form, donations, shop) are all built. Media storage is still local disk (Vercel Blob not yet wired), and there's no live demo deploy yet — see [Roadmap](#roadmap--out-of-scope) and `project-brief.md`.
 
 [Live demo](#) — coming once deployed · [CI](../../actions)
 
@@ -65,9 +65,11 @@ See `.env.example` for the full list. Only `DATABASE_URL` and `PAYLOAD_SECRET` a
 ```
 src/
 ├── app/
-│   ├── (frontend)/   # public-facing site
-│   └── (payload)/    # Payload admin + REST/GraphQL, generator-owned
+│   ├── (frontend)/   # public-facing site: home, dogs, donate, shop
+│   ├── (payload)/    # Payload admin + REST/GraphQL, generator-owned
+│   └── api/           # Stripe checkout + webhook routes
 ├── collections/       # Payload collections (Users, Media, Dogs, AdoptionApplications, Products, Donations, Orders, WebhookEvents)
+├── components/         # site chrome, forms, dog/shop cards, shadcn/ui primitives
 ├── globals/           # Payload globals (SiteSettings)
 ├── fields/            # shared reusable field configs
 ├── access/            # access-control functions
